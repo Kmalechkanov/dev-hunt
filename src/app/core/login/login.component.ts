@@ -18,10 +18,10 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private routher: Router,
-    ) { }
+  ) { }
 
   ngOnInit() {
-    if(this.authService.isLoggedIn) {
+    if (this.authService.isLoggedIn) {
       this.routher.navigateByUrl('/');
     }
 
