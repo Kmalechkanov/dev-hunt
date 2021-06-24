@@ -13,6 +13,7 @@ export class AuthService {
 
   private loggedIn = new BehaviorSubject<boolean>(false);
   private token?: string;
+  private errorMessage = new BehaviorSubject<string>("");
 
   private subscribeResponse = (response: any) => {
     if (response.accessToken !== undefined) {
@@ -26,6 +27,14 @@ export class AuthService {
       localStorage.setItem('data', JSON.stringify(jwtDecode(this.token!)));
       this.router.navigateByUrl('/');
     }
+  }
+
+  private subscribeError = (error: any) => {
+    this.errorMessage.next(error.error);
+  }
+
+  get error() {
+    return this.errorMessage;
   }
 
   get isLoggedIn() {
@@ -55,16 +64,18 @@ export class AuthService {
       return this.server.request('POST', '/login', {
         email: user.email,
         password: user.password
-      }).subscribe(this.subscribeResponse);
+      }).subscribe(this.subscribeResponse, this.subscribeError);
     }
   }
 
-  register(user: { email: string; password: string; }) {
+  register(user: { email: string; password: string; firstName: string; lastName: string; }) {
     if (user.email !== '' && user.password !== '') {
       return this.server.request('POST', '/register', {
         email: user.email,
-        password: user.password
-      }).subscribe(this.subscribeResponse);
+        password: user.password,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      }).subscribe(this.subscribeResponse, this.subscribeError);
     }
   }
 

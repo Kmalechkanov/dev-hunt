@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { ServerService } from 'src/app/services/server.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['../../../assets/auth.scss']
 })
 export class LoginComponent implements OnInit {
   form!: FormGroup;
-  public loginInvalid!: boolean;
-  private formSubmitAttempt!: boolean;
+  errorMessage: string | undefined;
+
+  // public loginInvalid!: boolean;
+  // private formSubmitAttempt!: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -32,18 +33,24 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    this.loginInvalid = false;
-    this.formSubmitAttempt = false;
+    // this.loginInvalid = false;
+    // this.formSubmitAttempt = false;
 
-    if (this.form.valid) {
+    if (this.form.valid || this.form.errors == null) {
       try {
         this.authService.login(this.form.value);
+
+        this.authService.error.subscribe((v) => {
+          this.errorMessage = v
+          console.log(v)
+          this.form.reset()
+        })
       } catch (err) {
-        console.log(err)
-        this.loginInvalid = true;
+        console.log(err);
+        // this.registerInvalid = true;
       }
     } else {
-      this.formSubmitAttempt = true;
+      // this.formSubmitAttempt = true;
     }
   }
 }
