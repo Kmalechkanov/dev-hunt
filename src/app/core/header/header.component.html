@@ -4,9 +4,9 @@
     <a mat-button [routerLink]="['/hire']">Hire!</a>
 
     <div class="right">
-        <div *ngIf="authService.isLoggedIn; then thenThen else elseBlock"></div>
+        <div *ngIf="this.loggedIn; then thenThen else elseBlock"></div>
         <ng-template #thenThen>
-            <a mat-button [routerLink]="['/Profile']">Profile</a>
+            <a mat-button [routerLink]="['/profile']">Profile</a>
             <a mat-stroked-button (click)="logout()">Logout</a>
         </ng-template>
         <ng-template #elseBlock>

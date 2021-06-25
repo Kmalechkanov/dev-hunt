@@ -12,19 +12,18 @@ export class LoginComponent implements OnInit {
   form!: FormGroup;
   errorMessage: string | undefined;
 
-  // public loginInvalid!: boolean;
-  // private formSubmitAttempt!: boolean;
-
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private routher: Router,
+    private router: Router,
   ) { }
 
   ngOnInit() {
-    if (this.authService.isLoggedIn) {
-      this.routher.navigateByUrl('/');
-    }
+    this.authService.loggedIn.subscribe((v)=> {
+      if (v == true) {
+        this.router.navigateByUrl('/')
+      }
+    });
 
     this.form = this.fb.group({
       email: ['', Validators.compose([Validators.email, Validators.required])],
@@ -33,24 +32,30 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    // this.loginInvalid = false;
-    // this.formSubmitAttempt = false;
-
-    if (this.form.valid || this.form.errors == null) {
+    if (this.form.valid && this.form.errors == null) {
       try {
-        this.authService.login(this.form.value);
+        console.log('trying')
+        this.authService.login$(this.form.value).subscribe(
+          {
+            next(position) {
+              console.log('Current login: ', position);
+            },
+            error(msg) {
+              console.log('Error login: ', msg.error);
+              //TODO  somehow store error
+            }
+          }
+        );
 
-        this.authService.error.subscribe((v) => {
-          this.errorMessage = v
-          console.log(v)
-          this.form.reset()
+        this.authService.getError$().subscribe((v) => {
+          this.errorMessage = v;
+          console.log(v);
+          this.form.reset();
         })
       } catch (err) {
         console.log(err);
-        // this.registerInvalid = true;
       }
     } else {
-      // this.formSubmitAttempt = true;
     }
   }
 }

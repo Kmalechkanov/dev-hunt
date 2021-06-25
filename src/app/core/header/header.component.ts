@@ -7,12 +7,15 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  loggedIn: boolean = false;
 
   constructor(public authService: AuthService) {
   }
 
   ngOnInit(): void {
-    console.log(this.authService.isLoggedIn)
+    this.authService.isAuthenticated$().subscribe((response)=> {
+      this.loggedIn = response;
+    })
   }
 
   logout() {

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { ThisReceiver, ThrowStmt } from '@angular/compiler';
+import { interval } from 'rxjs';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -28,13 +29,15 @@ export class RegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private routher: Router,
+    private router: Router,
   ) { }
 
   ngOnInit() {
-    if (this.authService.isLoggedIn) {
-      this.routher.navigateByUrl('/');
-    }
+    this.authService.loggedIn.subscribe((v) => {
+      if (v == true) {
+        this.router.navigateByUrl('/')
+      }
+    });
 
     this.form = this.fb.group(
       {
@@ -72,12 +75,24 @@ export class RegisterComponent implements OnInit {
     // this.formSubmitAttempt = false;
     if (this.form.valid || this.form.errors == null) {
       try {
-        this.authService.register(this.form.value);
+        this.authService.register$(this.form.value).subscribe(
+          {
+            next(position) {
+              console.log('Current register: ', position);
+            },
+            error(msg) {
+              console.log('Error register: ', msg.error); 
+              //TODO  somehow store error
+            }
+          }
+        );
 
-        this.authService.error.subscribe((v) => {
-          this.errorMessage = v
-          console.log(v)
+        this.authService.getError$().subscribe((err) => {
+          this.errorMessage = err; // TODO not changing
         })
+
+        // interval(500).subscribe(()=>console.log(this.errorMessage))
+
       } catch (err) {
         console.log(err);
         // this.registerInvalid = true;
