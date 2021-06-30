@@ -1,11 +1,13 @@
 <div class="toolbar" role="banner">
-    <img width="40" alt="Angular Logo" src="../../../assets/logo.svg">
+    <a  [routerLink]="['/']">
+        <img width="40" alt="Angular Logo" src="../../../assets/logo.svg">
+    </a>
 
     <a mat-button [routerLink]="['/hire']">Hire!</a>
 
     <div class="right">
-        <div *ngIf="this.loggedIn; then thenThen else elseBlock"></div>
-        <ng-template #thenThen>
+        <div *ngIf="this.loggedIn; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
             <a mat-button [routerLink]="['/profile']">Profile</a>
             <a mat-stroked-button (click)="logout()">Logout</a>
         </ng-template>

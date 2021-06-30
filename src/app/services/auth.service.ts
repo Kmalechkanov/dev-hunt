@@ -68,8 +68,6 @@ export class AuthService {
   }
 
   private saveToken(data: AuthResponse) {
-
-    console.log("dataa", data)
     if (data.accessToken) {
       localStorage.setItem('token', data.accessToken);
       this.loggedIn.next(true);

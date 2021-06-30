@@ -1,0 +1,29 @@
+<p>hire works!</p>
+<ul>
+    <li *ngFor="let user of users; index as i">
+        <mat-card class="example-card">
+            <mat-card-header>
+                <!-- <div mat-card-avatar class="example-header-image"></div> -->
+                <mat-card-title>{{user.firstName}} {{user.lastName}}</mat-card-title>
+                <mat-card-subtitle>{{user.location?.name}}</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image src="{{user.technology?.imageUrl}}" alt="Technology photo">
+            <mat-card-content>
+                <p>
+                    <b>Technology:</b> {{user.technology?.name}}
+                </p>
+                <p>
+                    <b>NativeLanguage:</b> {{user.nativeLanguage?.name}}
+                </p>
+                <p>
+                    {{user.description ? user.description : "This user description is missin'." }}
+                </p>
+            </mat-card-content>
+            <mat-card-actions>
+                <a [routerLink]="['/hire',user.id]" mat-button>Hire</a> 
+                <a [routerLink]="['/hire',user.id]" mat-button>Cartify</a>
+                <a [routerLink]="['/profile/',user.id]" mat-button>Checkout</a>
+            </mat-card-actions>
+        </mat-card>
+    </li>
+</ul>

@@ -73,6 +73,7 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     // this.registerInvalid = false;
     // this.formSubmitAttempt = false;
+    //todo this should be && not ||
     if (this.form.valid || this.form.errors == null) {
       try {
         this.authService.register$(this.form.value).subscribe(

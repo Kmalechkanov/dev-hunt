@@ -7,6 +7,7 @@ import { NullTemplateVisitor, ThisReceiver } from "@angular/compiler";
 import { Observable } from "rxjs";
 import { Token } from "../shared/models/token.model";
 import { JwtHelperService } from "@auth0/angular-jwt";
+import { environment as env } from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -18,21 +19,72 @@ export class UserService {
     this.tokenData = this.getTokenData();
   }
 
-
   getProfile$(): Observable<User> {
-    if(!this.tokenData) {
+    if (!this.tokenData) {
       this.tokenData = this.getTokenData();
     }
 
-    return this.httpClient.get<User>('http://localhost:4000/600/users/' + this.tokenData?.sub)
-    // return this.server.request<User>('GET', '/600/users/' + this.tokenData?.sub);
+    return this.httpClient.get<User>(env.api + '400/users/' + this.tokenData?.sub);
+  }
+
+  getCompletedProfile$(): Observable<User> {
+    if (!this.tokenData) {
+      this.tokenData = this.getTokenData();
+    }
+    const query = '?_expand=technology&_expand=location&_expand=nativeLanguage';
+    return this.httpClient.get<User>(env.api + '400/users/' + this.tokenData?.sub + query);
+  }
+
+  getCompletedWithoutMe$(): Observable<User[]> {
+    const query = '?locationId_ne&technologyId_ne&nativeLanguageId_ne&yearsOfExperience_ne&phoneNumber_ne&_expand=technology&_expand=location&_expand=nativeLanguage&id_ne=' + this.tokenData?.sub;
+    return this.httpClient.get<User[]>(env.api + '440/users' + query);
+  }
+
+  getCompleted$(): Observable<User[]> {
+    const query = '?locationId_ne&technologyId_ne&nativeLanguageId_ne&yearsOfExperience_ne&phoneNumber_ne&_expand=technology&_expand=location&_expand=nativeLanguage';
+    return this.httpClient.get<User[]>(env.api + '440/users' + query);
+  }
+
+  updateLocation$(value: number): Observable<User> {
+    return this.patch("locationId", value);
+  }
+
+  updateTechnology$(value: number): Observable<User> {
+    return this.patch("technologyId", value);
+  }
+
+  updatePhoneNumber$(value: number): Observable<User> {
+    return this.patch("phoneNumber", value);
+  }
+
+  updatePrice$(value: number): Observable<User> {
+    return this.patch("pricePerHour", value);
+  }
+
+  updateExperience$(value: number): Observable<User> {
+    return this.patch("yearsOfExperience", value);
+  }
+
+  updateNativeLanguage$(value: number): Observable<User> {
+    return this.patch("nativeLanguageId", value);
+  }
+
+  private patch(key: string, value: any): Observable<User> {
+    if (!this.tokenData) {
+      this.tokenData = this.getTokenData();
+    }
+
+    const data = {
+      [key.toString()]: value,
+    }
+    return this.httpClient.patch<User>(env.api + '600/users/' + this.tokenData?.sub, data)
   }
 
   private getTokenData(): Token | null {
     try {
       const token = localStorage.getItem('token');
 
-      if(!token){
+      if (!token) {
         console.log('Token missin\'')
       }
 

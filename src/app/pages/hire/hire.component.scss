@@ -1,0 +1,27 @@
+.example-card {
+    width: 250px;
+    // max-width: 400px;
+}
+
+.example-header-image {
+    background-size: cover;
+}
+
+li {
+    list-style: none;
+    padding-bottom: 20px;
+}
+
+ul {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    justify-content: center;
+    place-content: space-around;
+}
+
+img {
+    height: calc(250px + 32px);
+    width: calc(100% + 32px);
+    object-fit: cover;
+}
