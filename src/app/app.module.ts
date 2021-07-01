@@ -1,7 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import { ErrorStateMatcher, MatNativeDateModule, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 
 import { TokenInterceptor } from './interceptors/token.interceptor';
 
@@ -14,6 +14,9 @@ import { ButtonComponent } from './components/button/button.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { CompleteProfileComponent } from './components/complete-profile/complete-profile.component';
 import { HireComponent } from './pages/hire/hire.component';
+import { HeatmapComponent } from './components/heatmap/heatmap.component';
+import { DataPickerComponent } from './components/data-picker/data-picker.component';
+import { ProfileIdComponent } from './pages/profile-id/profile-id.component';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -26,6 +29,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -42,6 +46,9 @@ export function tokenGetter() {
     ProfileComponent,
     CompleteProfileComponent,
     HireComponent,
+    HeatmapComponent,
+    DataPickerComponent,
+    ProfileIdComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -56,6 +63,8 @@ export function tokenGetter() {
     MatSelectModule,
     MatDividerModule,
     MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },

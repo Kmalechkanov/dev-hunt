@@ -8,6 +8,7 @@ import { Observable } from "rxjs";
 import { Token } from "../shared/models/token.model";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { environment as env } from "../../environments/environment";
+import { Hire } from "../shared/models/hire.model";
 
 @Injectable({
   providedIn: 'root'
@@ -19,20 +20,22 @@ export class UserService {
     this.tokenData = this.getTokenData();
   }
 
-  getProfile$(): Observable<User> {
+  getProfile$(id?: number): Observable<User> {
     if (!this.tokenData) {
       this.tokenData = this.getTokenData();
     }
-
-    return this.httpClient.get<User>(env.api + '400/users/' + this.tokenData?.sub);
+    const profileId = id ? id : this.tokenData?.sub;
+    return this.httpClient.get<User>(env.api + '440/users/' + profileId);
   }
 
-  getCompletedProfile$(): Observable<User> {
+  getCompletedProfile$(id?: number): Observable<User> {
     if (!this.tokenData) {
       this.tokenData = this.getTokenData();
     }
+
+    const profileId = id ? id : this.tokenData?.sub;
     const query = '?_expand=technology&_expand=location&_expand=nativeLanguage';
-    return this.httpClient.get<User>(env.api + '400/users/' + this.tokenData?.sub + query);
+    return this.httpClient.get<User>(env.api + '440/users/' + profileId + query);
   }
 
   getCompletedWithoutMe$(): Observable<User[]> {
@@ -43,6 +46,14 @@ export class UserService {
   getCompleted$(): Observable<User[]> {
     const query = '?locationId_ne&technologyId_ne&nativeLanguageId_ne&yearsOfExperience_ne&phoneNumber_ne&_expand=technology&_expand=location&_expand=nativeLanguage';
     return this.httpClient.get<User[]>(env.api + '440/users' + query);
+  }
+
+  getHires$(): Observable<Hire[]> {
+    if (!this.tokenData) {
+      this.tokenData = this.getTokenData();
+    }
+
+    return this.httpClient.get<Hire[]>(env.api + '440/user/' + this.tokenData?.sub + "/hires");
   }
 
   updateLocation$(value: number): Observable<User> {
@@ -67,6 +78,17 @@ export class UserService {
 
   updateNativeLanguage$(value: number): Observable<User> {
     return this.patch("nativeLanguageId", value);
+  }
+
+  isCompleted(user: User): boolean {
+    if (!user.phoneNumber ||
+      !user.locationId ||
+      !user.technologyId ||
+      !user.pricePerHour ||
+      !user.yearsOfExperience ||
+      !user.nativeLanguageId)
+      return false;
+    return true;
   }
 
   private patch(key: string, value: any): Observable<User> {

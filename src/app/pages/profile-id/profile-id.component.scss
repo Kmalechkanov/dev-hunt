@@ -1,0 +1,15 @@
+h4 {
+    margin: 0;
+}
+
+h4::after {
+    content: ":";
+}
+
+.flex {
+    display: flex;
+}
+
+.half {
+    width: 50%;
+}
