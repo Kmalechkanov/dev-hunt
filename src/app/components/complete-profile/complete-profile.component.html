@@ -1,6 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="example-form">
 
-    <div *ngIf="!this.user.phoneNumber">
+    <div *ngIf="!this.developer.phoneNumber">
         <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Telephone</mat-label>
             <input type="tel" name="phoneNumber" formControlName="phoneNumber" matInput placeholder="555-555-1234">
@@ -8,7 +8,7 @@
         </mat-form-field>
     </div>
 
-    <div *ngIf="!this.user.locationId">
+    <div *ngIf="!this.developer.locationId">
         <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Location</mat-label>
             <input type="text" name="location" matInput formControlName="location" [matAutocomplete]="auto1">
@@ -25,7 +25,7 @@
         </mat-form-field>
     </div>
 
-    <div *ngIf="!this.user.technologyId">
+    <div *ngIf="!this.developer.technologyId">
         <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Technology</mat-label>
             <input type="text" name="technology" matInput formControlName="technology" [matAutocomplete]="auto2">
@@ -42,7 +42,7 @@
         </mat-form-field>
     </div>
 
-    <div *ngIf="!this.user.pricePerHour">
+    <div *ngIf="!this.developer.pricePerHour">
         <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Price per hour</mat-label>
             <input type="nubmer" name="pricePerHour" formControlName="pricePerHour" value="0.00" matInput
@@ -51,7 +51,7 @@
         </mat-form-field>
     </div>
 
-    <div *ngIf="!this.user.yearsOfExperience">
+    <div *ngIf="!this.developer.yearsOfExperience">
         <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Years of experience</mat-label>
             <input type="nubmer" name="yearsOfExperience" formControlName="yearsOfExperience" value="0" matInput
@@ -60,7 +60,7 @@
         </mat-form-field>
     </div>
 
-    <div *ngIf="!this.user.nativeLanguageId">
+    <div *ngIf="!this.developer.nativeLanguageId">
         <mat-form-field appearance="fill">
             <mat-label>Native language</mat-label>
             <mat-select name="nativeLanguage" formControlName="nativeLanguage">
@@ -70,7 +70,7 @@
             </mat-select>
         </mat-form-field>
     </div>
-    <!-- <div *ngIf="!this.user.nativeLanguageId">
+    <!-- <div *ngIf="!this.developer.nativeLanguageId">
         <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Price per hour</mat-label>
             <input type="nubmer" name="pricePerHour" formControlName="pricePerHour" matInput placeholder="6.43">

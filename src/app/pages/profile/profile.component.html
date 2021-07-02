@@ -1,4 +1,3 @@
-<!-- TODO ADD PROFILE PICTURE -->
 <mat-list>
     <mat-list-item>
         <h4 mat-line>Email</h4>
@@ -13,11 +12,6 @@
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
-                <h4 mat-line>Phone Number</h4>
-                <p mat-line class="demo-2"> {{user.phoneNumber ? user.phoneNumber : "Missing"}} </p>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
                 <h4 mat-line>Profile Id</h4>
                 <p mat-line class="demo-2"> {{user.id}} </p>
             </mat-list-item>
@@ -29,44 +23,18 @@
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
-                <h4 mat-line>Technology</h4>
-                <p mat-line class="demo-2"> {{user.technology?.name ? user.technology?.name : "Missing"}} </p>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-                <h4 mat-line>Native Language</h4>
-                <p mat-line class="demo-2"> {{user.nativeLanguage?.name ? user.nativeLanguage?.name : "Missing"}} </p>
+                <h4 mat-line>Todo</h4>
+                <p mat-line class="demo-2">Put somethin' here</p>
             </mat-list-item>
         </mat-list>
     </div>
     <mat-divider></mat-divider>
     <mat-list-item>
-        <h4 mat-line>Location</h4>
-        <p mat-line class="demo-2"> {{user.location?.name ? user.location?.name : "Missing"}} </p>
-    </mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item>
-        <h4 mat-line>LinkedIn</h4>
-        <p mat-line class="demo-2"> {{user.linkedIn ? user.linkedIn : "Missing"}} </p>
-    </mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item>
-        <h4 mat-line>Description</h4>
-        <p mat-line class="demo-2"> {{user.description ? user.description : "Missing"}} </p>
+        <h4 mat-line>TODO</h4>
+        <p mat-line class="demo-2"> Put some long value here. </p>
     </mat-list-item>
     <mat-divider></mat-divider>
 </mat-list>
-
-<div *ngIf="this.completedProfile; then thenBlock else elseBlock"></div>
-<ng-template #thenBlock>
-    <p #thenBlock>Completed required fields.</p>
-</ng-template>
-<ng-template #elseBlock>
-    <div>
-        <p>You must complete your profile</p>
-        <app-complete-profile [user]="this.user"></app-complete-profile>
-    </div>
-</ng-template>
 
 <app-data-picker></app-data-picker> 
 <!-- <mat-form-field>

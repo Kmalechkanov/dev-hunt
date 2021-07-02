@@ -7,13 +7,14 @@ import { RegisterComponent } from './pages/register/register.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { HireComponent } from './pages/hire/hire.component';
-import { ProfileIdComponent } from './pages/profile-id/profile-id.component';
+import { DeveloperComponent } from './developer/developer.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: 'profile/:id', component: ProfileIdComponent },
+  { path: 'profile/:id', component: ProfileComponent },
+  { path: 'developer/:id', component: DeveloperComponent },
   { path: 'hire', component: HireComponent },
   { path: '**', component: HomeComponent },
 ];

@@ -16,7 +16,6 @@ import { CompleteProfileComponent } from './components/complete-profile/complete
 import { HireComponent } from './pages/hire/hire.component';
 import { HeatmapComponent } from './components/heatmap/heatmap.component';
 import { DataPickerComponent } from './components/data-picker/data-picker.component';
-import { ProfileIdComponent } from './pages/profile-id/profile-id.component';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -30,6 +29,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { DeveloperComponent } from './developer/developer.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -48,7 +48,7 @@ export function tokenGetter() {
     HireComponent,
     HeatmapComponent,
     DataPickerComponent,
-    ProfileIdComponent,
+    DeveloperComponent,
   ],
   imports: [
     AppRoutingModule,

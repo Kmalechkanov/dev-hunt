@@ -1,57 +1,57 @@
 <mat-list>
     <mat-list-item>
         <h4 mat-line>Email</h4>
-        <p mat-line class="demo-2"> {{user.email}} </p>
+        <p mat-line class="demo-2"> {{developer.email}} </p>
     </mat-list-item>
     <div class="flex">
         <mat-divider></mat-divider>
         <mat-list class="half">
             <mat-list-item>
-                <h4 mat-line>First Name</h4>
-                <p mat-line class="demo-2"> {{user.firstName}} </p>
+                <h4 mat-line>Name</h4>
+                <p mat-line class="demo-2"> {{developer.name}} </p>
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
                 <h4 mat-line>Phone Number</h4>
-                <p mat-line class="demo-2"> {{user.phoneNumber ? user.phoneNumber : "Missing"}} </p>
+                <p mat-line class="demo-2"> {{developer.phoneNumber ? developer.phoneNumber : "Missing"}} </p>
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
-                <h4 mat-line>Profile Id</h4>
-                <p mat-line class="demo-2"> {{user.id}} </p>
+                <h4 mat-line>Todo</h4>
+                <p mat-line class="demo-2">Put somethin' here</p>
             </mat-list-item>
         </mat-list>
         <mat-list class="half">
             <mat-list-item>
-                <h4 mat-line>Last Name</h4>
-                <p mat-line class="demo-2"> {{user.lastName}} </p>
+                <h4 mat-line>Profile Id</h4>
+                <p mat-line class="demo-2"> {{developer.id}} </p>
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
                 <h4 mat-line>Technology</h4>
-                <p mat-line class="demo-2"> {{user.technology?.name ? user.technology?.name : "Missing"}} </p>
+                <p mat-line class="demo-2"> {{developer.technology?.name ? developer.technology?.name : "Missing"}} </p>
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
                 <h4 mat-line>Native Language</h4>
-                <p mat-line class="demo-2"> {{user.nativeLanguage?.name ? user.nativeLanguage?.name : "Missing"}} </p>
+                <p mat-line class="demo-2"> {{developer.nativeLanguage?.name ? developer.nativeLanguage?.name : "Missing"}} </p>
             </mat-list-item>
         </mat-list>
     </div>
     <mat-divider></mat-divider>
     <mat-list-item>
         <h4 mat-line>Location</h4>
-        <p mat-line class="demo-2"> {{user.location?.name ? user.location?.name : "Missing"}} </p>
+        <p mat-line class="demo-2"> {{developer.location?.name ? developer.location?.name : "Missing"}} </p>
     </mat-list-item>
     <mat-divider></mat-divider>
     <mat-list-item>
         <h4 mat-line>LinkedIn</h4>
-        <p mat-line class="demo-2"> {{user.linkedIn ? user.linkedIn : "Missing"}} </p>
+        <p mat-line class="demo-2"> {{developer.linkedIn ? developer.linkedIn : "Missing"}} </p>
     </mat-list-item>
     <mat-divider></mat-divider>
     <mat-list-item>
         <h4 mat-line>Description</h4>
-        <p mat-line class="demo-2"> {{user.description ? user.description : "Missing"}} </p>
+        <p mat-line class="demo-2"> {{developer.description ? developer.description : "Missing"}} </p>
     </mat-list-item>
     <mat-divider></mat-divider>
 </mat-list>

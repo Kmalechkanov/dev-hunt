@@ -8,19 +8,4 @@ export class User {
     email!: string;
     firstName!: string;
     lastName!: string;
-    role!: string;
-    phoneNumber?: string;
-    // locationId?: number;
-    // technologyId?: number;
-    locationId?: number;
-    location?: Location;
-    technologyId?: number;
-    technology?: Technology;
-    pricePerHour?: number;
-    yearsOfExperience?: number;
-    nativeLanguageId?: number;
-    nativeLanguage?: Language;
-    profilePicture?: string;
-    description?: string;
-    linkedIn?: string;
 }

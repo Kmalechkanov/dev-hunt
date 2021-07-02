@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { DeveloperService } from 'src/app/services/developer.service';
 import { UserService } from 'src/app/services/user.service';
+import { Developer } from 'src/app/shared/models/developer.model';
 import { User } from 'src/app/shared/models/user.model';
 
 @Component({
@@ -8,12 +10,12 @@ import { User } from 'src/app/shared/models/user.model';
   styleUrls: ['./hire.component.scss']
 })
 export class HireComponent implements OnInit {
-  users!: User[];
+  developers!: Developer[];
 
-  constructor(private userService: UserService) { }
+  constructor(private developerService: DeveloperService) { }
 
   ngOnInit(): void {
-    this.userService.getCompletedWithoutMe$().subscribe(res =>this.users = res);
+    this.developerService.getRangeExpand$().subscribe(res =>this.developers = res);
   }
 
 }

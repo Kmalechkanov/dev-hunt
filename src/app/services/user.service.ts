@@ -28,78 +28,12 @@ export class UserService {
     return this.httpClient.get<User>(env.api + '440/users/' + profileId);
   }
 
-  getCompletedProfile$(id?: number): Observable<User> {
-    if (!this.tokenData) {
-      this.tokenData = this.getTokenData();
-    }
-
-    const profileId = id ? id : this.tokenData?.sub;
-    const query = '?_expand=technology&_expand=location&_expand=nativeLanguage';
-    return this.httpClient.get<User>(env.api + '440/users/' + profileId + query);
-  }
-
-  getCompletedWithoutMe$(): Observable<User[]> {
-    const query = '?locationId_ne&technologyId_ne&nativeLanguageId_ne&yearsOfExperience_ne&phoneNumber_ne&_expand=technology&_expand=location&_expand=nativeLanguage&id_ne=' + this.tokenData?.sub;
-    return this.httpClient.get<User[]>(env.api + '440/users' + query);
-  }
-
-  getCompleted$(): Observable<User[]> {
-    const query = '?locationId_ne&technologyId_ne&nativeLanguageId_ne&yearsOfExperience_ne&phoneNumber_ne&_expand=technology&_expand=location&_expand=nativeLanguage';
-    return this.httpClient.get<User[]>(env.api + '440/users' + query);
-  }
-
   getHires$(): Observable<Hire[]> {
     if (!this.tokenData) {
       this.tokenData = this.getTokenData();
     }
 
     return this.httpClient.get<Hire[]>(env.api + '440/user/' + this.tokenData?.sub + "/hires");
-  }
-
-  updateLocation$(value: number): Observable<User> {
-    return this.patch("locationId", value);
-  }
-
-  updateTechnology$(value: number): Observable<User> {
-    return this.patch("technologyId", value);
-  }
-
-  updatePhoneNumber$(value: number): Observable<User> {
-    return this.patch("phoneNumber", value);
-  }
-
-  updatePrice$(value: number): Observable<User> {
-    return this.patch("pricePerHour", value);
-  }
-
-  updateExperience$(value: number): Observable<User> {
-    return this.patch("yearsOfExperience", value);
-  }
-
-  updateNativeLanguage$(value: number): Observable<User> {
-    return this.patch("nativeLanguageId", value);
-  }
-
-  isCompleted(user: User): boolean {
-    if (!user.phoneNumber ||
-      !user.locationId ||
-      !user.technologyId ||
-      !user.pricePerHour ||
-      !user.yearsOfExperience ||
-      !user.nativeLanguageId)
-      return false;
-    return true;
-  }
-
-  private patch(key: string, value: any): Observable<User> {
-    if (!this.tokenData) {
-      this.tokenData = this.getTokenData();
-    }
-
-    const data = {
-      [key.toString()]: value,
-    }
-    return this.httpClient.patch<User>(env.api + '600/users/' + this.tokenData?.sub, data)
   }
 
   private getTokenData(): Token | null {

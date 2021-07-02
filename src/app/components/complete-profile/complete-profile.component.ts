@@ -11,6 +11,8 @@ import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/shared/models/user.model';
 import { Language } from 'src/app/shared/models/language.model';
 import { EnumService } from 'src/app/services/enum.service';
+import { DeveloperService } from 'src/app/services/developer.service';
+import { Developer } from 'src/app/shared/models/developer.model';
 
 @Component({
   selector: 'app-complete-profile',
@@ -18,7 +20,7 @@ import { EnumService } from 'src/app/services/enum.service';
   styleUrls: ['./complete-profile.component.scss']
 })
 export class CompleteProfileComponent implements OnInit {
-  @Input() user!: User;
+  @Input() developer!: Developer;
 
   missingLocation: boolean = false;
   lockLocation: boolean = false;
@@ -34,6 +36,7 @@ export class CompleteProfileComponent implements OnInit {
     private locationService: LocationService,
     private technologyServeice: TechnologyService,
     private userService: UserService,
+    private developerService: DeveloperService,
     private enumService: EnumService,
   ) { }
 
@@ -53,7 +56,7 @@ export class CompleteProfileComponent implements OnInit {
       }
     );
 
-    console.log('user', this.user.nativeLanguageId);
+    console.log('Developer', this.developer.nativeLanguageId);
 
     this.locationService.getAll$().subscribe(locations => this.subscribeLocations(locations));
 
@@ -73,12 +76,12 @@ export class CompleteProfileComponent implements OnInit {
           const locMapUrl = this.form.get('mapUrl')?.value;
           this.locationService.create$(locValue, locMapUrl)
             .subscribe(res =>
-              this.userService.updateLocation$(res.id).subscribe()
+              this.developerService.updateLocation$(this.developer.id, res.id).subscribe()
             );
           console.log('Adding\' location and updateing profile.')
         }
         else {
-          this.userService.updateLocation$(locValue.id).subscribe();
+          this.developerService.updateLocation$(this.developer.id, locValue.id).subscribe();
           console.log('Updating\' profile')
         }
       }
@@ -91,12 +94,12 @@ export class CompleteProfileComponent implements OnInit {
           const techImageUrl = this.form.get('mapUrl')?.value;
           this.technologyServeice.create$(techValue, techImageUrl)
             .subscribe(res =>
-              this.userService.updateTechnology$(res.id).subscribe()
+              this.developerService.updateTechnology$(this.developer.id, res.id).subscribe()
             );
           console.log('Adding\' technology and updateing profile.')
         }
         else {
-          this.userService.updateTechnology$(techValue.id).subscribe();
+          this.developerService.updateTechnology$(this.developer.id, techValue.id).subscribe();
           console.log('Updating\' profile')
         }
       }
@@ -104,25 +107,25 @@ export class CompleteProfileComponent implements OnInit {
       const phoneNumber = this.form.get('phoneNumber')?.value;
       if (phoneNumber != "" && this.form.get('technology')?.touched) {
         console.log("in", phoneNumber)
-        this.userService.updatePhoneNumber$(phoneNumber).subscribe();
+        this.developerService.updatePhoneNumber$(this.developer.id, phoneNumber).subscribe();
       }
 
       const pricePerHour = this.form.get('pricePerHour')?.value;
       if (pricePerHour != "" && this.form.get('pricePerHour')?.touched) {
         console.log("in", pricePerHour)
-        this.userService.updatePrice$(pricePerHour).subscribe();
+        this.developerService.updatePrice$(this.developer.id, pricePerHour).subscribe();
       }
 
       const usersOfExperience = this.form.get('yearsOfExperience')?.value;
       if (usersOfExperience != "" && this.form.get('usersOfExperience')?.touched) {
         console.log("in", usersOfExperience)
-        this.userService.updateExperience$(usersOfExperience).subscribe();
+        this.developerService.updateExperience$(this.developer.id, usersOfExperience).subscribe();
       }
 
       const nativeLanguage = this.form.get('nativeLanguage')?.value;
       if (nativeLanguage != "" && this.form.get('nativeLanguage')?.touched) {
         console.log("in", nativeLanguage)
-        this.userService.updateNativeLanguage$(nativeLanguage).subscribe();
+        this.developerService.updateNativeLanguage$(this.developer.id, nativeLanguage).subscribe();
       }
     }
   }

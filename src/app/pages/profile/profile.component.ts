@@ -1,16 +1,8 @@
-import { HttpParams } from '@angular/common/http';
-import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map, startWith, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
-import { LocationService } from 'src/app/services/location.service';
 import { UserService } from 'src/app/services/user.service';
-import { Hire } from 'src/app/shared/models/hire.model';
 import { User } from 'src/app/shared/models/user.model';
-import { Location } from '../../shared/models/location.model';
 
 @Component({
   selector: 'app-profile',
@@ -20,12 +12,12 @@ import { Location } from '../../shared/models/location.model';
 
 export class ProfileComponent implements OnInit {
   user!: User;
-  completedProfile: boolean = true;
 
   constructor(
     private userService: UserService,
     private authService: AuthService,
     private router: Router,
+    private route: ActivatedRoute,
   ) {
     this.user = new User;
   }
@@ -37,11 +29,18 @@ export class ProfileComponent implements OnInit {
       }
     });
 
-    this.userService.getProfile$().subscribe((response) => {
-      this.user = response;
-      
-      if (this.userService.isCompleted(this.user)) {
-        this.userService.getCompletedProfile$().subscribe(response => this.user = response);
+    this.route.params.subscribe(params => {
+      if (!params.id) {
+        this.router.navigateByUrl('/profile');
+
+        this.userService.getProfile$().subscribe((response) => {
+          this.user = response;
+        });
+      }
+      else {
+        this.userService.getProfile$(params.id).subscribe((response) => {
+          this.user = response;
+        });
       }
     });
   }
@@ -66,16 +65,4 @@ export class ProfileComponent implements OnInit {
 
   //   return dateArray;
   // }
-
-  private missingData(): boolean {
-    if (!this.user.phoneNumber ||
-      !this.user.locationId ||
-      !this.user.technologyId ||
-      !this.user.pricePerHour ||
-      !this.user.yearsOfExperience ||
-      !this.user.nativeLanguageId)
-      return true;
-    return false;
-  }
-
 }
