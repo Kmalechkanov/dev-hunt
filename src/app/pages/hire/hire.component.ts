@@ -15,7 +15,6 @@ export class HireComponent implements OnInit {
   constructor(private developerService: DeveloperService) { }
 
   ngOnInit(): void {
-    this.developerService.getRangeExpand$().subscribe(res =>this.developers = res);
+    this.developerService.getRangeExpand$(0,).subscribe(res => this.developers = res.body!);
   }
-
 }

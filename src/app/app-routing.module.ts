@@ -8,14 +8,44 @@ import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { HireComponent } from './pages/hire/hire.component';
 import { DeveloperComponent } from './developer/developer.component';
+import { LoggedInGuard } from './guards/logged-in.guard';
+import { AdminDashboardComponent } from './pages/admin/admin-dashboard/admin-dashboard.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'profile/:id', component: ProfileComponent },
-  { path: 'developer/:id', component: DeveloperComponent },
-  { path: 'hire', component: HireComponent },
+  {
+    path: '',
+    canActivateChild: [LoggedInGuard],
+    // data: { roles : ['ROLE_USER'] },
+    children: [
+      { path: 'profile', component: ProfileComponent },
+      { path: 'profile/:id', component: ProfileComponent },
+      { path: 'developer/:id', component: DeveloperComponent },
+      { path: 'hire', component: HireComponent },
+    ]
+  },
+  {
+    path: 'auth',
+    children: [
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
+    ]
+  },
+  {
+    path: 'admin',
+    canActivateChild: [LoggedInGuard], //TODO add RoleGuard
+    // data: { roles : ['ROLE_USER'] },
+    children: [
+      {
+        path: '',
+        redirectTo: 'admin/dashboard',
+        pathMatch: 'full'
+      },
+      {
+        path: 'dashboard',
+        component: AdminDashboardComponent,
+      }
+    ]
+  },
   { path: '**', component: HomeComponent },
 ];
 

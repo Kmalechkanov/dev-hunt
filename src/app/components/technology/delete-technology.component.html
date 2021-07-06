@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Delete technology</h1>
+<div mat-dialog-content>
+    <mat-form-field appearance="fill">
+        <mat-label>id...</mat-label>
+        <input matInput [(ngModel)]="data.id" disabled placeholder="Sofia, Bulgaria...">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Name...</mat-label>
+        <input matInput [(ngModel)]="data.name" disabled placeholder="Sofia, Bulgaria...">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Image</mat-label>
+        <input matInput [(ngModel)]="data.imageUrl" disabled placeholder="https://idk.com/img32131">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button (click)="onSubmitClick()" color="warn" [mat-dialog-close]="data" cdkFocusInitial>Delete</button>
+</div>

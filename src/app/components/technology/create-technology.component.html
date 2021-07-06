@@ -1,0 +1,19 @@
+<form [formGroup]="form">
+    <h1 mat-dialog-title>Create technology</h1>
+    <div mat-dialog-content>
+        <mat-form-field appearance="fill">
+            <mat-label>Name...</mat-label>
+            <input matInput required formControlName="name" placeholder="Sofia, Bulgaria...">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Image Url</mat-label>
+            <input matInput formControlName="imageUrl" placeholder="https://idk.com/img32131">
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button (click)="onNoClick()">Cancel</button>
+        <button mat-button (click)="onSubmitClick()" color="primary" [mat-dialog-close]="data"
+            cdkFocusInitial>Create</button>
+    </div>
+</form>

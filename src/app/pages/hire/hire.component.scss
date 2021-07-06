@@ -20,8 +20,15 @@ ul {
     place-content: space-around;
 }
 
-img {
+.img1 {
     height: calc(250px + 32px);
     width: calc(100% + 32px);
     object-fit: cover;
+}
+
+.img2 {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 25px;
 }

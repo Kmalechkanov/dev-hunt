@@ -22,12 +22,6 @@ export class DeveloperComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.loggedIn.subscribe((v) => {
-      if (v == false) {
-        this.router.navigateByUrl('/login');
-      }
-    });
-
     this.route.params.subscribe(params => {
       if (!params.id) {
         this.router.navigateByUrl('/hire');

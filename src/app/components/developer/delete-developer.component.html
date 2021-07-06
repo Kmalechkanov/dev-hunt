@@ -1,0 +1,83 @@
+<form [formGroup]="form" onSubmit="onSubmitClick()" onclass="example-form">
+    <h1 mat-dialog-title>Delete developer</h1>
+    <div mat-dialog-content>
+        <mat-form-field class="example-full-width half-width" appearance="fill">
+            <mat-label>Name</mat-label>
+            <input type="email" name="name" formControlName="name" matInput placeholder="Josh">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width half-width" appearance="fill">
+            <mat-label>Email</mat-label>
+            <input type="email" name="email" formControlName="email" matInput placeholder="exampleEmail@mail.com">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width half-width" appearance="fill">
+            <mat-label>LinkedIn</mat-label>
+            <input type="text" name="linkedIn" formControlName="linkedIn" matInput
+                placeholder="https://linkedin.com/profile">
+        </mat-form-field>
+
+        <mat-form-field class="half-width" appearance="fill">
+            <mat-label>Native language</mat-label>
+            <mat-select name="nativeLanguage" formControlName="nativeLanguage">
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width full-width" appearance="fill">
+            <mat-label>description</mat-label>
+            <input type="text" name="description" formControlName="description" matInput placeholder="Some text">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width half-width" appearance="fill">
+            <mat-label>Profile picture</mat-label>
+            <input type="text" name="profilePicture" formControlName="profilePicture" matInput
+                placeholder="https://googlemaps.com/img2">
+            <mat-icon matSuffix>image</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width half-width" appearance="fill">
+            <mat-label>Telephone</mat-label>
+            <input type="tel" name="phoneNumber" formControlName="phoneNumber" matInput placeholder="555-555-1234">
+            <mat-icon matSuffix>mode_edit</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width half-width" appearance="fill">
+            <mat-label>Location</mat-label>
+            <input type="text" name="location" matInput formControlName="location">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width half-width" appearance="fill">
+            <mat-label>Location url</mat-label>
+            <input matInput name="mapUrl" formControlName="mapUrl" placeholder="https://googlemaps.com/43242">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width half-width" appearance="fill">
+            <mat-label>Technology</mat-label>
+            <input type="text" name="technology" matInput formControlName="technology">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width half-width" appearance="fill">
+            <mat-label>Technology image url</mat-label>
+            <input matInput name="imageUrl" formControlName="imageUrl" placeholder="https://googlemaps.com/43242.png">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width half-width" appearance="fill">
+            <mat-label>Price per hour</mat-label>
+            <input type="nubmer" name="pricePerHour" formControlName="pricePerHour" value="0.00" matInput
+                placeholder="6.43">
+            <mat-icon matSuffix>attach_money</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width half-width" appearance="fill">
+            <mat-label>Years of experience</mat-label>
+            <input type="nubmer" name="yearsOfExperience" formControlName="yearsOfExperience" value="0" matInput
+                placeholder="5">
+            <mat-icon matSuffix>date_range</mat-icon>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button (click)="onNoClick()">Cancel</button>
+        <button mat-button (click)="onSubmitClick()" color="warn" cdkFocusInitial>Continue</button>
+        <!-- [mat-dialog-close]="data" -->
+    </div>
+</form>

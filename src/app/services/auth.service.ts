@@ -2,9 +2,10 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { BehaviorSubject, Observable, VirtualTimeScheduler } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, take, tap } from 'rxjs/operators';
 import { AuthResponse } from '../shared/models/authResponse.model';
 import { Token } from '../shared/models/token.model';
+import { environment as env } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import { Token } from '../shared/models/token.model';
 
 export class AuthService {
   loggedIn = new BehaviorSubject<boolean>(false);
-  error = new BehaviorSubject<string>("");
+  private error = new BehaviorSubject<string>("");
 
   constructor(private httpClient: HttpClient) {
   }
@@ -22,7 +23,11 @@ export class AuthService {
   }
 
   getError$(): Observable<string> {
-    return this.error;
+    return this.error.asObservable();
+  }
+
+  isLoggedIn(): boolean {
+    return this.loggedIn.value;
   }
 
   isAuthenticated$(): Observable<boolean> {
@@ -38,11 +43,11 @@ export class AuthService {
       this.loggedIn.next(true);
     }
 
-    return this.loggedIn;
+    return this.loggedIn.asObservable();
   }
 
   login$(user: { email: string; password: string; }): Observable<AuthResponse> {
-    return this.httpClient.post<AuthResponse>('http://localhost:4000/login', {
+    return this.httpClient.post<AuthResponse>(env.api + 'login', {
       email: user.email,
       password: user.password
     }).pipe(
@@ -51,7 +56,7 @@ export class AuthService {
   }
 
   register$(user: { email: string; password: string; firstName: string; lastName: string; }): Observable<AuthResponse> {
-    return this.httpClient.post<AuthResponse>('http://localhost:4000/register', {
+    return this.httpClient.post<AuthResponse>(env.api + 'register', {
       email: user.email,
       password: user.password,
       firstName: user.firstName,

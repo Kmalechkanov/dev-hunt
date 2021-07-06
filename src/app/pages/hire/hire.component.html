@@ -2,13 +2,18 @@
     <li *ngFor="let developer of developers; index as i">
         <mat-card class="example-card">
             <mat-card-header>
-                <!-- <div mat-card-avatar class="example-header-image"></div> -->
+                <div mat-card-avatar class="example-header-image">
+                    <img class="img2" src="{{developer.technology?.imageUrl ? 
+                        developer.technology?.imageUrl : 
+                        'https://retreonmediaalliance.com/wp-content/themes/crystalskull/img/defaults/default.jpg'}}"
+                        alt="Technology photo">
+                </div>
                 <mat-card-title>{{developer.name}}</mat-card-title>
                 <mat-card-subtitle>{{developer.location?.name}}</mat-card-subtitle>
             </mat-card-header>
-            <img mat-card-image src=
-                "{{developer.technology?.imageUrl ? 
-                    developer.technology?.imageUrl : 
+            <img class="img1" mat-card-image src=
+                "{{developer.profilePicture ? 
+                    developer.profilePicture : 
                     'https://retreonmediaalliance.com/wp-content/themes/crystalskull/img/defaults/default.jpg'}}"
                 alt="Technology photo">
             <mat-card-content>

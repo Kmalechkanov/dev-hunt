@@ -1,0 +1,40 @@
+<!-- <mat-paginator [length]="100"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 25, 100]">
+</mat-paginator> -->
+
+<mat-accordion>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Technologies
+            </mat-panel-title>
+            <mat-panel-description>
+                None
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-crud-technologies></app-crud-technologies>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Location
+            </mat-panel-title>
+            <mat-panel-description>
+                None
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-crud-locations></app-crud-locations>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Developers
+            </mat-panel-title>
+            <mat-panel-description>
+                None
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-crud-developers></app-crud-developers>
+    </mat-expansion-panel>
+</mat-accordion>

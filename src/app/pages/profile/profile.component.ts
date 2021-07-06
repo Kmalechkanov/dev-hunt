@@ -25,13 +25,13 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.authService.loggedIn.subscribe((v) => {
       if (v == false) {
-        this.router.navigateByUrl('/login');
+        this.router.navigateByUrl('auth/login');
       }
     });
 
     this.route.params.subscribe(params => {
       if (!params.id) {
-        this.router.navigateByUrl('/profile');
+        this.router.navigateByUrl('profile');
 
         this.userService.getProfile$().subscribe((response) => {
           this.user = response;

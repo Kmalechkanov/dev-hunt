@@ -1,0 +1,72 @@
+<div class="example-container mat-elevation-z8">
+    <div class="example-loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+        <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+            Rate limit has been reached.
+        </div>
+    </div>
+
+    <div class="example-table-container">
+
+        <table mat-table [dataSource]="data" class="example-table" matSort matSortActive="name" matSortDisableClear
+            matSortDirection="desc">
+            <ng-container class="firstCol" matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>Id</th>
+                <td mat-cell *matCellDef="let row">{{row.id}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>Name</th>
+                <td mat-cell *matCellDef="let row">{{row.name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="location">
+                <th mat-header-cell *matHeaderCellDef>Location</th>
+                <td mat-cell *matCellDef="let row">{{row.location.name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="technology">
+                <th mat-header-cell *matHeaderCellDef>Technology</th>
+                <td mat-cell *matCellDef="let row">{{row.technology.name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="language">
+                <th mat-header-cell *matHeaderCellDef>Language</th>
+                <td mat-cell *matCellDef="let row">{{row.nativeLanguage.name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef disableClear>
+                    Actions
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <!-- <button mat-button (click)="updateDeveloper(row.id)">
+                        <mat-icon>edit</mat-icon>
+                    </button> -->
+                    <button mat-button (click)="deleteDeveloper(row.id)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="create">
+                <th mat-header-cell *matHeaderCellDef disableClear>
+                    <button mat-button (click)="createDeveloper()">
+                        Create <mat-icon>add_to_photos</mat-icon>
+                    </button>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <!-- <button mat-button (click)="readDeveloper(row.id)">
+                        <mat-icon>check</mat-icon>
+                    </button> -->
+                </td>
+            </ng-container>
+            
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns">
+            </tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+    <mat-paginator [length]="resultsLength" [pageSize]="4" [pageSizeOptions]="[1,2,3,30]"></mat-paginator>
+</div>

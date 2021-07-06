@@ -16,7 +16,7 @@ export class DataPickerComponent implements OnInit {
 
   range = new FormGroup({
     start: new FormControl(''),
-    end: new FormControl('',)
+    end: new FormControl(''),
   });
 
   constructor(private userService: UserService) { }
