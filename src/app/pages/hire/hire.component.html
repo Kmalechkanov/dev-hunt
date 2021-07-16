@@ -11,8 +11,7 @@
                 <mat-card-title>{{developer.name}}</mat-card-title>
                 <mat-card-subtitle>{{developer.location?.name}}</mat-card-subtitle>
             </mat-card-header>
-            <img class="img1" mat-card-image src=
-                "{{developer.profilePicture ? 
+            <img class="img1" mat-card-image src="{{developer.profilePicture ? 
                     developer.profilePicture : 
                     'https://retreonmediaalliance.com/wp-content/themes/crystalskull/img/defaults/default.jpg'}}"
                 alt="Technology photo">
@@ -27,9 +26,15 @@
                     {{developer.description ? developer.description : "This developer description is missin'." }}
                 </p>
             </mat-card-content>
-            <mat-card-actions>
-                <a [routerLink]="['/hire/',developer.id]" mat-button>Hire</a>
-                <a [routerLink]="['/cart/add',developer.id]" mat-button>Cartify</a>
+            <mat-card-actions class="flex">
+                <a (click)="hire(developer.id)" mat-button>Hire</a>
+                <div *ngIf="inCart[developer.id]; then thenBlock else elseBlock"></div>
+                <ng-template #thenBlock>
+                    <button (click)="uncartify(developer.id)" mat-button>Uncartify</button>
+                </ng-template>
+                <ng-template #elseBlock>
+                    <button (click)="cartify(developer.id)" mat-button>Cartify</button>
+                </ng-template>
                 <a [routerLink]="['/developer/',developer.id]" mat-button>Checkout</a>
             </mat-card-actions>
         </mat-card>

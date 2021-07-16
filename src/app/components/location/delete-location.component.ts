@@ -5,11 +5,14 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, Observable } from 'rxjs';
-import { catchError, map, startWith, switchMap } from 'rxjs/operators';
+import { catchError, map, startWith, switchMap, take } from 'rxjs/operators';
 import { LocationService } from 'src/app/services/location.service';
 import { Developer } from 'src/app/shared/models/developer.model';
 import { Location } from 'src/app/shared/models/location.model'
 import { FormsModule } from '@angular/forms';
+import { SnackbarComponent } from 'src/app/snackbar/snackbar.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DeveloperService } from 'src/app/services/developer.service';
 
 @Component({
     selector: 'app-delete-location',
@@ -20,6 +23,8 @@ export class DeleteLocationComponent {
     constructor(
         public dialogRef: MatDialogRef<DeleteLocationComponent>,
         public locationService: LocationService,
+        public developerService: DeveloperService,
+        public snackBar: MatSnackBar,
         @Inject(MAT_DIALOG_DATA) public data: Location) { }
 
     onNoClick(): void {
@@ -27,8 +32,28 @@ export class DeleteLocationComponent {
     }
 
     onSubmitClick(): void {
-        console.log('gm', this.data);
+        this.developerService.getWithLocationFirst(this.data.id)
+            .pipe(take(1)).subscribe((res) => {
+                if (!!res.length) {
+                    this.snackBar.openFromComponent(SnackbarComponent, {
+                        data: "Cannot delete used location!"
+                    });
 
-        this.locationService.delete(this.data.id)
+                    this.dialogRef.close(res);
+                    return;
+                }
+
+                this.locationService.delete$(this.data.id)
+                    .pipe(take(1)).subscribe((res) => {
+
+                        if (res) {
+                            this.snackBar.openFromComponent(SnackbarComponent, {
+                                data: "Successfully deleted location!"
+                            });
+
+                            this.dialogRef.close(res);
+                        }
+                    });
+            });
     }
 }

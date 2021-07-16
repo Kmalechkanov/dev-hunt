@@ -8,6 +8,8 @@
     <div class="right">
         <div *ngIf="this.loggedIn; then thenBlock else elseBlock"></div>
         <ng-template #thenBlock>
+            <a mat-button [routerLink]="['/cart']">Cart</a>
+            <a mat-button [routerLink]="['/admin/dashboard']">Dashboard</a>
             <a mat-button [routerLink]="['/profile']">Profile</a>
             <a mat-stroked-button (click)="logout()">Logout</a>
         </ng-template>
@@ -16,4 +18,4 @@
             <a mat-button [routerLink]="['/auth/register']">Register</a>
         </ng-template>
     </div>
-</div>
+</div> 

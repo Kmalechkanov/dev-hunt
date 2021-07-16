@@ -1,0 +1,26 @@
+<form [formGroup]="form">
+    <h1 mat-dialog-title>Hire {{developer.name}}</h1>
+    <div mat-dialog-content>
+        <mat-form-field appearance="fill">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker" [min]="minDate!" [max]="maxDate!"
+                [dateFilter]="disabledDaysFilter">
+                <input matStartDate formControlName="start" placeholder="Start date">
+                <input (ngModelChange)="dataChanged()" matEndDate formControlName="end" placeholder="End date">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+
+            <mat-error *ngIf="form.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+            <mat-error *ngIf="form.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+            <mat-error *ngIf="form.controls.end.hasError('matDatepickerMin')">Invalid start date</mat-error>
+            <mat-error *ngIf="form.controls.end.hasError('matDatepickerMax')">End date must be less than 3 years from now.</mat-error>
+
+            <mat-error *ngIf="form.controls.end.hasError('invalidRange')">Invalid range</mat-error>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button (click)="onNoClick()">Cancel</button>
+        <button mat-button (click)="onSubmitClick()" color="warn" cdkFocusInitial>Continue</button>
+    </div>
+</form>

@@ -1,16 +1,18 @@
-<h1 mat-dialog-title>Edit location</h1>
-<div mat-dialog-content>
-     <mat-form-field appearance="fill">
-        <mat-label>Name...</mat-label>
-        <input matInput [(ngModel)]="data.name" placeholder="Sofia, Bulgaria...">
-    </mat-form-field>
+<form [formGroup]="form">
+    <h1 mat-dialog-title>Edit location</h1>
+    <div mat-dialog-content>
+        <mat-form-field appearance="fill">
+            <mat-label>Name...</mat-label>
+            <input matInput formControlName="name" placeholder="Sofia, Bulgaria...">
+        </mat-form-field>
 
-    <mat-form-field appearance="fill">
-        <mat-label>Url</mat-label>
-        <input matInput [(ngModel)]="data.mapUrl"  placeholder="https://idk.com/img32131">
-    </mat-form-field>
-</div>
-<div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Cancel</button>
-    <button mat-button (click)="onSubmitClick()" color="primary" [mat-dialog-close]="data" cdkFocusInitial >Update</button>
-</div>
+        <mat-form-field appearance="fill">
+            <mat-label>Url</mat-label>
+            <input matInput formControlName="mapUrl" placeholder="https://idk.com/img32131">
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button (click)="onNoClick()">Cancel</button>
+        <button mat-button (click)="onSubmitClick()" color="primary" cdkFocusInitial>Update</button>
+    </div>
+</form>

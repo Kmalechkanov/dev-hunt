@@ -1,6 +1,9 @@
+import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { of } from 'rxjs';
+import { catchError, take } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -19,7 +22,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.authService.loggedIn.subscribe((v)=> {
+    this.authService.loggedIn.subscribe((v) => {
       if (v == true) {
         this.router.navigateByUrl('/')
       }
@@ -33,29 +36,20 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid && this.form.errors == null) {
-      try {
-        console.log('trying')
-        this.authService.login$(this.form.value).subscribe(
-          {
-            next(position) {
-              console.log('Current login: ', position);
-            },
-            error(msg) {
-              console.log('Error login: ', msg.error);
-              //TODO  somehow store error
-            }
+      console.log('trying')
+      this.authService.login$(this.form.value).pipe(
+        take(1),
+        catchError(error => of(this.errorMessage = "Wrong email or password", this.form.reset()))
+      ).subscribe(
+        {
+          next(position) {
+            console.log('Current login: ', position);
           }
-        );
-
-        this.authService.getError$().subscribe((v) => {
-          this.errorMessage = v;
-          console.log(v);
-          this.form.reset();
-        })
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
+        }
+      );
+    }
+    else {
+      // this.errorMessage = ""
     }
   }
 }

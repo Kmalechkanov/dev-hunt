@@ -1,13 +1,14 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
-import { ErrorStateMatcher, MatNativeDateModule, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 
 import { LoggedInGuard } from './guards/logged-in.guard';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './core/header/header.component';
+import { HeaderComponent } from './layout/header/header.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -33,10 +34,16 @@ import { DeleteTechnologyComponent } from './components/technology/delete-techno
 import { CrudTechnologyComponent } from './components/technology/crud-technology.component';
 //developers
 import { CreateDeveloperComponent } from './components/developer/create-developer.component';
+import { ReadDeveloperComponent } from './components/developer/read-developer.component';
+import { UpdateDeveloperComponent } from './components/developer/update-developer.component';
 import { DeleteDeveloperComponent } from './components/developer/delete-developer.component';
 import { CrudDeveloperComponent } from './components/developer/crud-developer.component';
+import { HireDeveloperComponent } from './components/developer/hire-developer.component';
+import { HireDevelopersComponent } from './components/developer/hire-developers.component';
+import { SnackbarComponent } from './snackbar/snackbar.component';
+import { CartComponent } from './pages/cart/cart.component';
 
-
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -54,6 +61,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatNativeDateModule } from '@angular/material/core';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -85,8 +94,14 @@ export function tokenGetter() {
     DeleteTechnologyComponent,
     CrudTechnologyComponent,
     CreateDeveloperComponent,
-    CrudDeveloperComponent,
+    ReadDeveloperComponent,
+    UpdateDeveloperComponent,
     DeleteDeveloperComponent,
+    CrudDeveloperComponent,
+    HireDeveloperComponent,
+    HireDevelopersComponent,
+    SnackbarComponent,
+    CartComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -109,8 +124,10 @@ export function tokenGetter() {
     MatTableModule,
     MatDialogModule,
     MatExpansionModule,
+    MatSnackBarModule,
   ],
   providers: [
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3500 } },
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     LoggedInGuard,

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, take } from 'rxjs/operators';
 import { LocationService } from 'src/app/services/location.service';
 import { Location } from '../../shared/models/location.model';
 import { environment as env } from 'src/environments/environment';
@@ -35,7 +35,6 @@ export class CompleteProfileComponent implements OnInit {
     private fb: FormBuilder,
     private locationService: LocationService,
     private technologyServeice: TechnologyService,
-    private userService: UserService,
     private developerService: DeveloperService,
     private enumService: EnumService,
   ) { }
@@ -58,11 +57,11 @@ export class CompleteProfileComponent implements OnInit {
 
     console.log('Developer', this.developer.nativeLanguageId);
 
-    this.locationService.getAll$().subscribe(locations => this.subscribeLocations(locations));
+    this.locationService.getAll$().pipe(take(1)).subscribe(locations => this.subscribeLocations(locations));
 
-    this.technologyServeice.getAll$().subscribe(technologies => this.subscribeTechnologies(technologies));
+    this.technologyServeice.getAll$().pipe(take(1)).subscribe(technologies => this.subscribeTechnologies(technologies));
 
-    this.enumService.getLanguages$().subscribe(languages => this.languages = languages);
+    this.enumService.getLanguages$().pipe(take(1)).subscribe(languages => this.languages = languages);
   }
 
   onSubmit() {
@@ -75,13 +74,13 @@ export class CompleteProfileComponent implements OnInit {
         if (!this.locations.includes(locValue)) {
           const locMapUrl = this.form.get('mapUrl')?.value;
           this.locationService.create$(locValue, locMapUrl)
-            .subscribe(res =>
-              this.developerService.updateLocation$(this.developer.id, res.id).subscribe()
+            .pipe(take(1)).subscribe(res =>
+              this.developerService.updateLocation$(this.developer.id, res.id).pipe(take(1)).subscribe()
             );
           console.log('Adding\' location and updateing profile.')
         }
         else {
-          this.developerService.updateLocation$(this.developer.id, locValue.id).subscribe();
+          this.developerService.updateLocation$(this.developer.id, locValue.id).pipe(take(1)).subscribe();
           console.log('Updating\' profile')
         }
       }
@@ -93,13 +92,13 @@ export class CompleteProfileComponent implements OnInit {
         if (!this.technologies.includes(techValue)) {
           const techImageUrl = this.form.get('mapUrl')?.value;
           this.technologyServeice.create$(techValue, techImageUrl)
-            .subscribe(res =>
-              this.developerService.updateTechnology$(this.developer.id, res.id).subscribe()
+            .pipe(take(1)).subscribe(res =>
+              this.developerService.updateTechnology$(this.developer.id, res.id).pipe(take(1)).subscribe()
             );
           console.log('Adding\' technology and updateing profile.')
         }
         else {
-          this.developerService.updateTechnology$(this.developer.id, techValue.id).subscribe();
+          this.developerService.updateTechnology$(this.developer.id, techValue.id).pipe(take(1)).subscribe();
           console.log('Updating\' profile')
         }
       }
@@ -107,25 +106,25 @@ export class CompleteProfileComponent implements OnInit {
       const phoneNumber = this.form.get('phoneNumber')?.value;
       if (phoneNumber != "" && this.form.get('technology')?.touched) {
         console.log("in", phoneNumber)
-        this.developerService.updatePhoneNumber$(this.developer.id, phoneNumber).subscribe();
+        this.developerService.updatePhoneNumber$(this.developer.id, phoneNumber).pipe(take(1)).subscribe();
       }
 
       const pricePerHour = this.form.get('pricePerHour')?.value;
       if (pricePerHour != "" && this.form.get('pricePerHour')?.touched) {
         console.log("in", pricePerHour)
-        this.developerService.updatePrice$(this.developer.id, pricePerHour).subscribe();
+        this.developerService.updatePrice$(this.developer.id, pricePerHour).pipe(take(1)).subscribe();
       }
 
       const usersOfExperience = this.form.get('yearsOfExperience')?.value;
       if (usersOfExperience != "" && this.form.get('usersOfExperience')?.touched) {
         console.log("in", usersOfExperience)
-        this.developerService.updateExperience$(this.developer.id, usersOfExperience).subscribe();
+        this.developerService.updateExperience$(this.developer.id, usersOfExperience).pipe(take(1)).subscribe();
       }
 
       const nativeLanguage = this.form.get('nativeLanguage')?.value;
       if (nativeLanguage != "" && this.form.get('nativeLanguage')?.touched) {
         console.log("in", nativeLanguage)
-        this.developerService.updateNativeLanguage$(this.developer.id, nativeLanguage).subscribe();
+        this.developerService.updateNativeLanguage$(this.developer.id, nativeLanguage).pipe(take(1)).subscribe();
       }
     }
   }

@@ -13,3 +13,14 @@ h4::after {
 .half {
     width: 50%;
 }
+
+img {
+    height: 250px;
+    width: 250px;
+    object-fit: cover;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-around;
+}

@@ -32,54 +32,17 @@ export class LocationService {
         return this.httpClient.post<Location>(env.api + '660/locations/', data);
     }
 
-    update$(location: Location): Observable<Location> {
-        return this.httpClient.patch<Location>(env.api + 'locations/' + location.id, location);
+    update$(id: number, name: string, mapUrl: string): Observable<Location> {
+        let data = {
+            name,
+            mapUrl,
+        }
+        return this.httpClient.patch<Location>(env.api + '660/locations/' + id, data);
     }
 
-    //todo make this **** work
-    delete(id: number): void {
-        let httpParams = new HttpParams();
-        httpParams = httpParams.append('_limit', 1);
-        httpParams = httpParams.append('locationId', id);
-
-        console.log("are we even here ?");
-        let inUse;
-        this.httpClient.get<Location[]>(env.api + "developers", { params: httpParams })
-            .subscribe(r => {
-                inUse = !!r.length
-                console.log("cmon please",!r)
-                if (!inUse) {
-                    console.log('So here ?')
-                    this.httpClient.delete(env.api + 'locations/' + id).subscribe();
-                }
-                else {
-                    this.httpClient.delete(env.api + '444/locations/' + id).subscribe();
-                }
-            })
+    delete$(id: number): Observable<any> {
+        return this.httpClient.delete(env.api + 'locations/' + id);
     }
-
-
-    // async delete$(id: number): Promise<Observable<any>> {
-    //     let inUse = await this._checkInuse(id);
-    //     if (!inUse) {
-    //         console.log('So here ?')
-    //         return this.httpClient.delete(env.api + 'locations/' + id);
-    //     }
-    //     else {
-    //         return this.httpClient.delete(env.api + '444/locations/' + id);
-    //     }
-    // }
-
-    // private async _checkInuse(id: number): Promise<boolean> {
-    //     let httpParams = new HttpParams();
-    //     httpParams = httpParams.append('_limit', 1);
-    //     httpParams = httpParams.append('locationId', id);
-
-    //     let res = await this.httpClient.get<Location[]>(env.api + "developers", { params: httpParams })
-    //         .pipe(take(1),).toPromise();
-
-    //     return !!res.length;;
-    // }
 }
 
 

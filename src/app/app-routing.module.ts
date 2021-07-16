@@ -10,8 +10,12 @@ import { HireComponent } from './pages/hire/hire.component';
 import { DeveloperComponent } from './developer/developer.component';
 import { LoggedInGuard } from './guards/logged-in.guard';
 import { AdminDashboardComponent } from './pages/admin/admin-dashboard/admin-dashboard.component';
+import { CartComponent } from './pages/cart/cart.component';
 
 const routes: Routes = [
+  {
+    path: '', component: HomeComponent,
+  },
   {
     path: '',
     canActivateChild: [LoggedInGuard],
@@ -21,7 +25,8 @@ const routes: Routes = [
       { path: 'profile/:id', component: ProfileComponent },
       { path: 'developer/:id', component: DeveloperComponent },
       { path: 'hire', component: HireComponent },
-    ]
+      { path: 'cart', component: CartComponent },
+    ],
   },
   {
     path: 'auth',

@@ -1,20 +1,17 @@
-import { HttpResponse } from '@angular/common/http';
-import { identifierModuleUrl } from '@angular/compiler';
-import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { merge, Observable } from 'rxjs';
-import { catchError, map, startWith, switchMap } from 'rxjs/operators';
+import { Component, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+import { take } from 'rxjs/operators';
 import { LocationService } from 'src/app/services/location.service';
-import { Developer } from 'src/app/shared/models/developer.model';
 import { Location } from 'src/app/shared/models/location.model'
-import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment as env } from 'src/environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarComponent } from 'src/app/snackbar/snackbar.component';
 
 @Component({
     selector: 'app-update-location',
-    templateUrl: './update-location.component.html',
+    templateUrl: './create-location.component.html',
 })
 
 export class CreateLocationComponent {
@@ -23,6 +20,7 @@ export class CreateLocationComponent {
     constructor(
         public dialogRef: MatDialogRef<CreateLocationComponent>,
         public locationService: LocationService,
+        private snackBar: MatSnackBar,
         fb: FormBuilder,
         @Inject(MAT_DIALOG_DATA) public data: Location) {
         this.form = fb.group({
@@ -36,9 +34,18 @@ export class CreateLocationComponent {
     }
 
     onSubmitClick(): void {
-        console.log('gm', this.data);
-        this.locationService.create$(this.data.name, this.data.mapUrl!).subscribe(res => {
-            console.log(res);
-        });
+        if (this.form.valid && this.form.errors == null) {
+            let data = {
+                name: this.form.get('name')?.value,
+                mapUrl: this.form.get('mapUrl')?.value,
+            }
+            this.locationService.create$(data.name, data.mapUrl).pipe(take(1)).subscribe(res => {
+                this.snackBar.openFromComponent(SnackbarComponent, {
+                    data: "Successfully created location!"
+                });
+
+                this.dialogRef.close();
+            });
+        }
     }
 }

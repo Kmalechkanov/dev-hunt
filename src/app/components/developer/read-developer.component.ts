@@ -4,27 +4,21 @@ import { LocationService } from 'src/app/services/location.service';
 import { Developer } from 'src/app/shared/models/developer.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DeveloperService } from 'src/app/services/developer.service';
-import { take } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackbarComponent } from 'src/app/snackbar/snackbar.component';
-import { HireService } from 'src/app/services/hire.service';
 
 @Component({
-    selector: 'app-delete-developer',
-    templateUrl: './delete-developer.component.html',
+    selector: 'app-read-developer',
+    templateUrl: './read-developer.component.html',
     styleUrls: ['./crud-developer.component.scss'],
 })
 
-export class DeleteDeveloperComponent implements OnInit {
+export class ReadDeveloperComponent implements OnInit {
     form!: FormGroup;
 
     constructor(
         private fb: FormBuilder,
-        public snackBar: MatSnackBar,
-        public dialogRef: MatDialogRef<DeleteDeveloperComponent>,
+        public dialogRef: MatDialogRef<ReadDeveloperComponent>,
         public locationService: LocationService,
         public developerService: DeveloperService,
-        public hireService: HireService,
         @Inject(MAT_DIALOG_DATA) public data: Developer) { }
 
     ngOnInit(): void {
@@ -49,30 +43,5 @@ export class DeleteDeveloperComponent implements OnInit {
 
     onNoClick(): void {
         this.dialogRef.close();
-    }
-
-    onSubmitClick(): void {
-        console.log('gm', this.data);
-
-        this.hireService.isHired$(this.data.id).pipe(take(1)).subscribe(res => {
-            if (!!res.length) {
-                this.form.setErrors({ "hired": "Cannot delete hired developers" })
-
-                this.snackBar.openFromComponent(SnackbarComponent, {
-                    data: "Cannot delete hired developers!"
-                });
-
-                // this.dialogRef.close(res);
-                return;
-            }
-
-            this.developerService.delete$(this.data.id).pipe(take(1)).subscribe((res) => {
-                    this.snackBar.openFromComponent(SnackbarComponent, {
-                        data: "Successfully deleted developer!"
-                    });
-
-                    this.dialogRef.close(res);
-            });
-        })
     }
 }

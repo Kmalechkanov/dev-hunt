@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { UserService } from 'src/app/services/user.service';
 import { Hire } from 'src/app/shared/models/hire.model';
 
@@ -10,49 +12,60 @@ import { Hire } from 'src/app/shared/models/hire.model';
 })
 
 export class DataPickerComponent implements OnInit {
-  disabledDates?: Date[] = [];
-  minDate!: Date;
-  maxDate!: Date;
+  @Input() dataRange!: FormGroup;
+  @Input() minDate?: Date;
+  @Input() maxDate?: Date;
+  @Input() hireRequest!: Observable<Hire[]>;
+  disabledDates: Date[] = [];
 
-  range = new FormGroup({
-    start: new FormControl(''),
-    end: new FormControl(''),
-  });
+  constructor(private userService: UserService) {
+    if (!this.minDate) {
+      this.minDate = new Date(Date.now());
+    }
+    if (!this.maxDate) {
+      this.maxDate = new Date(this.minDate);
+      this.maxDate.setFullYear(this.minDate.getFullYear() + 3);
+    }
 
-  constructor(private userService: UserService) { }
+  }
 
   ngOnInit(): void {
-    this.minDate = new Date(Date.now());
-    this.maxDate =  new Date(this.minDate);
-    this.maxDate.setFullYear(this.minDate.getFullYear() + 3);
-
-    this.userService.getHires$().subscribe(response => {
-      console.log(response)
-      this.hiresToData(response)
+    this.hireRequest.pipe(take(1)).subscribe(res => {
+      this.hiresToData(res);
     });
   }
 
+  dataChanged() {
+    let start: number = this.dataRange.get('start')?.value;
+    let end: number = this.dataRange.get('end')?.value;
+
+    let dateNumber: number;
+    for (let i = 0; i < this.disabledDates.length!; i++) {
+      dateNumber = +this.disabledDates[i].toUTCString();
+      if (dateNumber >= start && dateNumber <= end) {
+        this.dataRange.setErrors({ 'invalidRange': true });
+        break;
+      }
+    }
+  }
+
   disabledDaysFilter = (d: Date | null): boolean => {
-    return !this.disabledDates?.find(x => x.getTime() == d?.getTime());
+    return !this.disabledDates.find(x => x.getTime() == d?.getTime());
   }
 
   private hiresToData(hires: Hire[]): any {
     hires.forEach(hire => {
-      const dates = this.getDates(hire.startDate!, hire.endDate!);
+      this.getDates(hire.startDate!, hire.endDate!);
     });
   }
 
   private getDates(startDateUnix: number, stopDateUnix: number) {
-    var dateArray = new Array();
     var currentDate = startDateUnix;
     const day = 60 * 60 * 24;
 
     while (currentDate <= stopDateUnix) {
-      this.disabledDates?.push(new Date(currentDate * 1000));
-      dateArray.push({ [currentDate]: 1 });
+      this.disabledDates.push(new Date(currentDate));
       currentDate += day;
     }
-
-    return dateArray;
   }
 }

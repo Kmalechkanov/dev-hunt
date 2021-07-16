@@ -1,21 +1,15 @@
-import { HttpResponse } from '@angular/common/http';
-import { identifierModuleUrl } from '@angular/compiler';
-import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge } from 'rxjs';
-import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { LocationService } from 'src/app/services/location.service';
+import { map, startWith, switchMap } from 'rxjs/operators';
 import { Developer } from 'src/app/shared/models/developer.model';
-import { Location } from 'src/app/shared/models/location.model'
-import { FormsModule } from '@angular/forms';
-// import { UpdateLocationComponent } from 'src/app/components/developer/update-developer.component';
-// import { DeleteLocationComponent } from 'src/app/components/developer/delete-developer.component';
 import { CreateDeveloperComponent } from './create-developer.component';
 import { DeveloperService } from 'src/app/services/developer.service';
 import { DeleteDeveloperComponent } from './delete-developer.component';
-// import { ReadLocationComponent } from './read-developer.component';
+import { ReadDeveloperComponent } from './read-developer.component';
+import { UpdateDeveloperComponent } from './update-developer.component';
 
 @Component({
     selector: 'app-crud-developers',
@@ -39,17 +33,17 @@ export class CrudDeveloperComponent implements AfterViewInit {
         public dialog: MatDialog,
     ) { }
 
-    // updateLocation(id: number): void {
-    //     const dialogRef = this.dialog.open(UpdateLocationComponent, {
-    //         width: '250px',
-    //         data: this.data.find(d => d.id == id),
-    //     });
+    updateDeveloper(id: number): void {
+        const dialogRef = this.dialog.open(UpdateDeveloperComponent, {
+            width: '600px',
+            data: this.data.find(d => d.id == id),
+        });
 
-    //     dialogRef.afterClosed().subscribe(result => {
-    //         console.log('The dialog was closed', result);
-    //         this.paginator._changePageSize(this.paginator.pageSize); 
-    //     });
-    // }
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed', result);
+            this.paginator._changePageSize(this.paginator.pageSize); 
+        });
+    }
 
     deleteDeveloper(id: number): void {
         const dialogRef = this.dialog.open(DeleteDeveloperComponent, {
@@ -75,16 +69,16 @@ export class CrudDeveloperComponent implements AfterViewInit {
         });
     }
 
-    // readLocation(id: number): void {
-    //     const dialogRef = this.dialog.open(ReadLocationComponent, {
-    //         width: '250px',
-    //         data: this.data.find(d => d.id == id),
-    //     });
+    readDeveloper(id: number): void {
+        const dialogRef = this.dialog.open(ReadDeveloperComponent, {
+            width: '600px',
+            data: this.data.find(d => d.id == id),
+        });
 
-    //     dialogRef.afterClosed().subscribe(result => {
-    //         console.log('The dialog was closed', result);
-    //     });
-    // }
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed', result);
+        });
+    }
 
     ngAfterViewInit() {
         this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);

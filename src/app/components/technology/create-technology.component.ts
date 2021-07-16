@@ -1,20 +1,16 @@
-import { HttpResponse } from '@angular/common/http';
-import { identifierModuleUrl } from '@angular/compiler';
-import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { merge, Observable } from 'rxjs';
-import { catchError, map, startWith, switchMap } from 'rxjs/operators';
+import { Component, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { take } from 'rxjs/operators';
 import { TechnologyService } from 'src/app/services/technology.service';
-import { Developer } from 'src/app/shared/models/developer.model';
 import { Technology } from 'src/app/shared/models/technology.model'
-import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment as env } from 'src/environments/environment';
+import { SnackbarComponent } from 'src/app/snackbar/snackbar.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-    selector: 'app-update-technology',
-    templateUrl: './update-technology.component.html',
+    selector: 'app-create-technology',
+    templateUrl: './create-technology.component.html',
 })
 
 export class CreateTechnologyComponent {
@@ -23,6 +19,7 @@ export class CreateTechnologyComponent {
     constructor(
         public dialogRef: MatDialogRef<CreateTechnologyComponent>,
         public technologyService: TechnologyService,
+        public snackBar: MatSnackBar,
         fb: FormBuilder,
         @Inject(MAT_DIALOG_DATA) public data: Technology) {
         this.form = fb.group({
@@ -36,9 +33,19 @@ export class CreateTechnologyComponent {
     }
 
     onSubmitClick(): void {
-        console.log('gm', this.data);
-        this.technologyService.create$(this.data.name, this.data.imageUrl!).subscribe(res => {
-            console.log(res);
-        });
+        if (this.form.valid && this.form.errors == null) {
+            let data = {
+                name: this.form.get('name')?.value,
+                imageUrl: this.form.get('imageUrl')?.value,
+            }
+
+            this.technologyService.create$(data.name, data.imageUrl).pipe(take(1)).subscribe(res => {
+                this.snackBar.openFromComponent(SnackbarComponent, {
+                    data: "Successfully created technology!"
+                });
+
+                this.dialogRef.close();
+            });
+        }
     }
 }

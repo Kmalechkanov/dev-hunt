@@ -11,8 +11,10 @@ export class LoggedInGuard implements CanActivateChild { //CanLoad
         private router: Router,
     ) { }
 
-    canActivateChild(): any {
-        if (this.authService.isLoggedIn()) {
+    canActivateChild(): boolean {
+        // console.log(this.authService.isLoggedIn());
+        if (this.authService.loggedIn) {
+            console.log('loggedin')
             return true;
         } else {
             this.router.navigateByUrl('auth/login');

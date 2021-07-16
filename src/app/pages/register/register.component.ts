@@ -5,6 +5,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { ThisReceiver, ThrowStmt } from '@angular/compiler';
 import { interval } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -76,7 +77,7 @@ export class RegisterComponent implements OnInit {
     //todo this should be && not ||
     if (this.form.valid || this.form.errors == null) {
       try {
-        this.authService.register$(this.form.value).subscribe(
+        this.authService.register$(this.form.value).pipe(take(1)).subscribe(
           {
             next(position) {
               console.log('Current register: ', position);

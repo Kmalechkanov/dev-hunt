@@ -8,20 +8,19 @@ import { Location } from '../../shared/models/location.model';
 import { environment as env } from 'src/environments/environment';
 import { Technology } from 'src/app/shared/models/technology.model';
 import { TechnologyService } from 'src/app/services/technology.service';
-import { UserService } from 'src/app/services/user.service';
 import { Language } from 'src/app/shared/models/language.model';
 import { EnumService } from 'src/app/services/enum.service';
 import { DeveloperService } from 'src/app/services/developer.service';
 import { Developer } from 'src/app/shared/models/developer.model';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from 'src/app/snackbar/snackbar.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-    selector: 'app-create-developer',
-    templateUrl: './create-developer.component.html',
+    selector: 'app-update-developer',
+    templateUrl: './update-developer.component.html',
     styleUrls: ['./crud-developer.component.scss']
 })
-export class CreateDeveloperComponent implements OnInit {
+export class UpdateDeveloperComponent implements OnInit {
     missingLocation: boolean = false;
     lockLocation: boolean = false;
     form!: FormGroup;
@@ -36,10 +35,9 @@ export class CreateDeveloperComponent implements OnInit {
         public snackBar: MatSnackBar,
         private locationService: LocationService,
         private technologyServeice: TechnologyService,
-        private userService: UserService,
         private developerService: DeveloperService,
         private enumService: EnumService,
-        public dialogRef: MatDialogRef<CreateDeveloperComponent>,
+        public dialogRef: MatDialogRef<UpdateDeveloperComponent>,
         @Inject(MAT_DIALOG_DATA) public data: Developer
     ) { }
 
@@ -56,10 +54,10 @@ export class CreateDeveloperComponent implements OnInit {
                 description: [this.data.description],
                 profilePicture: [this.data.profilePicture, Validators.pattern(env.urlRegex)],
                 phoneNumber: [this.data.phoneNumber, Validators.compose([Validators.required, Validators.pattern(env.phoneNumberRegex)])],
-                location: [this.data.location?.name, Validators.required],
-                mapUrl: [{ value: this.data.location?.mapUrl, disabled: false }, Validators.pattern(env.urlRegex)],
-                technology: [this.data.technology?.name, Validators.required],
-                imageUrl: [{ value: this.data.technology?.imageUrl, disabled: false }, Validators.pattern(env.urlRegex)],
+                location: [this.data.location, Validators.required],
+                mapUrl: [{ value: this.data.location?.mapUrl, disabled: true }, Validators.pattern(env.urlRegex)],
+                technology: [this.data.technology, Validators.required],
+                imageUrl: [{ value: this.data.technology?.imageUrl, disabled: true }, Validators.pattern(env.urlRegex)],
                 nativeLanguage: [this.data.nativeLanguage?.id, Validators.required],
                 pricePerHour: [this.data.pricePerHour, Validators.compose(
                     [Validators.required, Validators.min(0)])],
@@ -160,11 +158,12 @@ export class CreateDeveloperComponent implements OnInit {
                 creating = false;
             } else {
                 console.log("dev value", this.data);
-                this.developerService.create$(this.data).subscribe(res => {
+                this.developerService.update$(this.data).subscribe(res => {
+
                     this.snackBar.openFromComponent(SnackbarComponent, {
-                        data: "Successfully created developer!"
+                        data: "Successfully updated developer!"
                     });
-                    this.dialogRef.close();
+                    this.dialogRef.close(res);
                 });
             }
         }

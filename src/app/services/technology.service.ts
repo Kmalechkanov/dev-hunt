@@ -1,8 +1,9 @@
 import { HttpClient, HttpParams, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { Technology } from "../shared/models/technology.model"
 import { environment as env } from "../../environments/environment"
+import { take } from "rxjs/operators";
 
 @Injectable({
     providedIn: 'root'
@@ -30,30 +31,17 @@ export class TechnologyService {
         return this.httpClient.post<Technology>(env.api + '660/technologies/', data);
     }
 
-    update$(technology: Technology): Observable<Technology> {
-        return this.httpClient.patch<Technology>(env.api + 'technologies/' + technology.id, technology);
+    update$(id: number, name: string, imageUrl: string): Observable<Technology> {
+        let data = {
+            id,
+            name,
+            imageUrl,
+        }
+        return this.httpClient.patch<Technology>(env.api + 'technologies/' + id, data);
     }
 
-    //todo make this **** work
-    delete(id: number): void {
-        let httpParams = new HttpParams();
-        httpParams = httpParams.append('_limit', 1);
-        httpParams = httpParams.append('technologyId', id);
-
-        console.log("are we even here ?");
-        let inUse;
-        this.httpClient.get<Technology[]>(env.api + "developers", { params: httpParams })
-            .subscribe(r => {
-                inUse = !!r.length
-                console.log("cmon please",!r)
-                if (!inUse) {
-                    console.log('So here ?')
-                    this.httpClient.delete(env.api + 'technologies/' + id).subscribe();
-                }
-                else {
-                    this.httpClient.delete(env.api + '444/technologies/' + id).subscribe();
-                }
-            })
+    delete$(id: number): Observable<any> {
+        return this.httpClient.delete(env.api + 'technologies/' + id);
     }
 }
 

@@ -1,9 +1,9 @@
 <mat-list>
-    <mat-list-item>
-        <h4 mat-line>Email</h4>
-        <p mat-line class="demo-2"> {{developer.email}} </p>
-    </mat-list-item>
     <div class="flex">
+        <img class="half" src="" src="{{developer.profilePicture ? 
+            developer.profilePicture : 
+            'https://retreonmediaalliance.com/wp-content/themes/crystalskull/img/defaults/default.jpg'}}"
+            alt="Profile picture">
         <mat-divider></mat-divider>
         <mat-list class="half">
             <mat-list-item>
@@ -17,8 +17,8 @@
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
-                <h4 mat-line>Todo</h4>
-                <p mat-line class="demo-2">Put somethin' here</p>
+                <h4 mat-line>Email</h4>
+                <p mat-line class="demo-2"> {{developer.email}} </p>
             </mat-list-item>
         </mat-list>
         <mat-list class="half">
@@ -34,7 +34,8 @@
             <mat-divider></mat-divider>
             <mat-list-item>
                 <h4 mat-line>Native Language</h4>
-                <p mat-line class="demo-2"> {{developer.nativeLanguage?.name ? developer.nativeLanguage?.name : "Missing"}} </p>
+                <p mat-line class="demo-2"> {{developer.nativeLanguage?.name ? developer.nativeLanguage?.name :
+                    "Missing"}} </p>
             </mat-list-item>
         </mat-list>
     </div>
@@ -54,4 +55,18 @@
         <p mat-line class="demo-2"> {{developer.description ? developer.description : "Missing"}} </p>
     </mat-list-item>
     <mat-divider></mat-divider>
+    <div class="buttons">
+        <button (click)="hire()" mat-button>Hire</button>
+        <div *ngIf="inCart; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+            <button (click)="uncartify()" mat-button>Uncartify</button>
+        </ng-template>
+        <ng-template #elseBlock>
+            <button (click)="cartify()" mat-button>Cartify</button>
+        </ng-template>
+        <button (click)="edit()" color="accent" mat-button>Edit</button>
+        <button (click)="delete()" color="warn" mat-button>Delete</button>
+    </div>
 </mat-list>
+<!-- <div id="heatmap"></div>
+<div><input type="button" (click)="onSelect()">click me</div> -->

@@ -1,15 +1,12 @@
-import { HttpResponse } from '@angular/common/http';
-import { identifierModuleUrl } from '@angular/compiler';
-import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { merge, Observable } from 'rxjs';
-import { catchError, map, startWith, switchMap } from 'rxjs/operators';
+import { Component, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TechnologyService } from 'src/app/services/technology.service';
-import { Developer } from 'src/app/shared/models/developer.model';
-import { Technology } from 'src/app/shared/models/technology.model'
-import { FormsModule } from '@angular/forms';
+import { Technology } from 'src/app/shared/models/technology.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarComponent } from 'src/app/snackbar/snackbar.component';
+import { DeveloperService } from 'src/app/services/developer.service';
+import { take } from 'rxjs/operators';
+import { pipe } from 'rxjs';
 
 @Component({
     selector: 'app-delete-technology',
@@ -20,6 +17,8 @@ export class DeleteTechnologyComponent {
     constructor(
         public dialogRef: MatDialogRef<DeleteTechnologyComponent>,
         public technologyService: TechnologyService,
+        public developerService: DeveloperService,
+        public snackBar: MatSnackBar,
         @Inject(MAT_DIALOG_DATA) public data: Technology) { }
 
     onNoClick(): void {
@@ -27,8 +26,32 @@ export class DeleteTechnologyComponent {
     }
 
     onSubmitClick(): void {
-        console.log('gm', this.data);
+        this.developerService.getWithTechnologiesFirst(this.data.id)
+            .pipe(take(1)).subscribe((res) => {
+                console.log('res', !!res.length)
+                console.log('1')
+                if (!!res.length) {
+                    this.snackBar.openFromComponent(SnackbarComponent, {
+                        data: "Cannot delete used technology!"
+                    });
+                    console.log('2')
 
-        this.technologyService.delete(this.data.id)
+                    this.dialogRef.close(res);
+                    return;
+                }
+                console.log('3')
+
+                this.technologyService.delete$(this.data.id)
+                    .pipe(take(1)).subscribe((res) => {
+                        if (res) {
+                            this.snackBar.openFromComponent(SnackbarComponent, {
+                                data: "Successfully deleted technology!"
+                            });
+                            console.log('4')
+
+                            this.dialogRef.close(res);
+                        }
+                    });
+            })
     }
 }

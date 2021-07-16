@@ -20,6 +20,10 @@ export class UserService {
     this.tokenData = this.getTokenData();
   }
 
+  getId(): number {
+    return +this.tokenData?.sub!;
+  }
+
   getProfile$(id?: number): Observable<User> {
     if (!this.tokenData) {
       this.tokenData = this.getTokenData();

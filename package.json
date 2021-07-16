@@ -1,8 +1,12 @@
 {
   "name": "dev-hunt",
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "ng": "ng",
+    "all": "start npm run dbNotepad && start npm run start && npm run db",
+    "db": "cd ../auth-server && node db-server",
+    "dbNotepad": "cd ../auth-server && notepad++ db.json",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
@@ -31,7 +35,7 @@
     "@angular-devkit/build-angular": "~12.0.5",
     "@angular/cli": "~12.0.5",
     "@angular/compiler-cli": "~12.0.5",
-    "@types/cal-heatmap": "^3.5.35",
+    "@types/cal-heatmap": "^3.5.36",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
     "jasmine-core": "~3.7.0",

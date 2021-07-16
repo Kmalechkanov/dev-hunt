@@ -1,15 +1,11 @@
-import { HttpResponse } from '@angular/common/http';
-import { identifierModuleUrl } from '@angular/compiler';
-import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge } from 'rxjs';
-import { catchError, map, startWith, switchMap } from 'rxjs/operators';
+import { map, startWith, switchMap } from 'rxjs/operators';
 import { TechnologyService } from 'src/app/services/technology.service';
-import { Developer } from 'src/app/shared/models/developer.model';
 import { Technology } from 'src/app/shared/models/technology.model'
-import { FormsModule } from '@angular/forms';
 import { UpdateTechnologyComponent } from 'src/app/components/technology/update-technology.component';
 import { DeleteTechnologyComponent } from 'src/app/components/technology/delete-technology.component';
 import { CreateTechnologyComponent } from './create-technology.component';
@@ -45,7 +41,7 @@ export class CrudTechnologyComponent implements AfterViewInit {
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed', result);
-            this.paginator._changePageSize(this.paginator.pageSize); 
+            this.paginator._changePageSize(this.paginator.pageSize);
         });
     }
 
@@ -57,7 +53,7 @@ export class CrudTechnologyComponent implements AfterViewInit {
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed', result);
-            this.paginator._changePageSize(this.paginator.pageSize); 
+            this.paginator._changePageSize(this.paginator.pageSize);
         });
     }
 
@@ -69,7 +65,7 @@ export class CrudTechnologyComponent implements AfterViewInit {
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed', result);
-            this.paginator._changePageSize(this.paginator.pageSize); 
+            this.paginator._changePageSize(this.paginator.pageSize);
         });
     }
 
