@@ -68,5 +68,8 @@
         <button (click)="delete()" color="warn" mat-button>Delete</button>
     </div>
 </mat-list>
+<div *ngIf="this.developer.id != undefined">
+    <app-heatmap [data]="this.developer"></app-heatmap>
+</div>
 <!-- <div id="heatmap"></div>
 <div><input type="button" (click)="onSelect()">click me</div> -->

@@ -13,7 +13,7 @@ export class LoggedInGuard implements CanActivateChild { //CanLoad
 
     canActivateChild(): boolean {
         // console.log(this.authService.isLoggedIn());
-        if (this.authService.loggedIn) {
+        if (this.authService.loggedIn.value) {
             console.log('loggedin')
             return true;
         } else {

@@ -63,6 +63,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatNativeDateModule } from '@angular/material/core';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -125,6 +126,7 @@ export function tokenGetter() {
     MatDialogModule,
     MatExpansionModule,
     MatSnackBarModule,
+    NgApexchartsModule,
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3500 } },

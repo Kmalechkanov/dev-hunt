@@ -34,13 +34,10 @@
             "scripts": [
               "node_modules/d3/d3.min.js",
               "node_modules/cal-heatmap/cal-heatmap.js",
-              "node_modules/@types/cal-heatmap/index.d.ts"
+              "node_modules/@types/cal-heatmap/index.d.ts",
+              "node_modules/apexcharts/dist/apexcharts.min.js"
             ],
-            "allowedCommonJsDependencies": [
-              "lodash",
-              "d3",
-              "cal-heatmap"
-           ]
+            "allowedCommonJsDependencies": []
           },
           "configurations": {
             "production": {
