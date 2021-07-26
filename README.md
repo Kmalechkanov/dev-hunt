@@ -1,27 +1,51 @@
-# DevHunt
+# Assignment
+Create an application for hiring a team of developers. This application should provide functionality for browsing, adding, updating and deleting developer profiles and managing the hiring process.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.5.
+### As a user of that system, I should be able to:
+- Login to the application
+- Register (create a new account)
+- List, create, edit and delete locations
+- List, create, edit and delete technologies
+- List, create, edit and delete developer’s profiles
+- Select one or multiple developers and hire them for a specified period of time.
+The system doesn’t have to make a difference between types of users (administrators, normal users, etc). For the sake of simplicity, everyone who is logged in and using the system can both manage developer’s profiles and hire them
 
-## Development server
+### Each location has the following information:
+- Name - required
+- Google map link - optional
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Each technology has the following information:
+- Name - required
+- Image url - optional
 
-## Code scaffolding
+### Each developer’s profile has the following information:
+- Name - required
+- Email - required
+- Phone number - required
+- Location - required
+- Technology - required
+- Price per hour - required
+- Years of experience - required
+- Native language - required (one of the following “English”, “Bulgarian”, “Serbian”)
+- Profile picture url - optional
+- Description - optional
+- Linkedin profile link - optional
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### The hiring process should follow the rules described below:
+- A User can hire a single developer or a team of many developers.
+- Each “hiring” record includes start date, end date and a developer who has been hired.
+- A developer can’t be hired multiple times in the same period.
+- A developer can’t be hired for past periods of time.
 
-## Build
+*Hint: Even if multiple developers are hired as a team for the same period of time, store a record for each of them.*
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Note on entities deletion: Technologies and locations which are assigned to at least one developer should not be deletable! A developer who is currently hired or there is a request for future hiring should not be deletable!
 
-## Running unit tests
+## Technology stack for the application:
+- Angular
+- Angular Material
+- json-server
+- json-server-auth
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### External 
+- apexcharts
